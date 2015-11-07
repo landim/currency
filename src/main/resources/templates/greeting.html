@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" ng-app>
+
+
+<head> 
+    <title>Getting Started: Serving Web Content</title> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<!-- stylesheets -->
+<link href="/webjars/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet" />
+
+<script src="/webjars/jquery/2.1.4/jquery.min.js"></script>
+<script src="/webjars/angularjs/1.4.7/angular.min.js"></script>
+<script src="/webjars/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <p th:text="'Hello, ' + ${name} + '!'" />
+</body>
+
+</html>
