@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en" ng-app="exchangeApp">
+<head>
+<meta charset="utf-8">
+<title>Currency Exchange</title>
+<link href="/webjars/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet" />
+
+<script src="/webjars/jquery/2.1.4/jquery.min.js"></script>
+<script src="/webjars/angularjs/1.4.7/angular.min.js"></script>
+<script src="/webjars/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="js/exchange.js"></script>
+</head>
+<body ng-controller="currencyController">
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<h2 class="text-center">Currency Exchange Service.</h2>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-8  col-md-offset-2">
+				<form class="form-inline">
+				    <div class="input-group">
+				      <div class="input-group-addon">$</div>
+				      <input type="number" class="form-control"  ng-model="convert.amount" placeholder="Amount">
+				    </div>
+				    <div class="input-group">
+				      <label for="from">From: </label>
+				    </div>
+				    <div class="input-group">
+						<select ng-model="convert.from" class="form-control">
+						  <option  ng-repeat="currency in currencies | orderBy:'code'" value="{{currency.code}}">{{currency.code}}</option>
+						</select>
+				    </div>
+				    <div class="input-group">
+				      <label for="to">To: </label>
+				    </div>
+				    <div class="input-group">
+ 						<select ng-model="convert.to" class="form-control">
+						  <option  ng-repeat="currency in currencies | orderBy:'code'" value="{{currency.code}}">{{currency.code}}</option>
+						</select>
+						
+ 					</div>
+				  <button type="button" class="btn btn-primary" ng-click="convertCurrency()">Exchange</button>
+				    <div class="input-group">
+				      <div class="input-group-addon">$</div>
+				      <input type="text" class="form-control"  ng-model="convert.result" placeholder="Result">
+				  </div>
+				</form>		
+			</div>
+		</div>
+		<div class="row" style="margin-top:20px">
+			<div class="col-md-6 col-md-offset-2">
+				<!--Sidebar content-->
+				Search: <input ng-model="query">
+			</div>
+			<div class="col-md-2">
+				  <button type="submit" class="btn btn-primary" ng-click="updateCurrencies()">Update server</button>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2">
+				<!--Body content-->
+				<table class="table-striped table">
+					<thead>
+						<tr>
+							<th th:text="currency">Currency</th>
+							<th th:text="name">Name</th>
+							<th th:text="value">Value</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="currency in currencies | filter: nameCodeFilterFunction | orderBy:'code'">
+							<td>{{currency.code}}</td>
+							<td>{{currency.name}}</td>
+							<td>{{getCurrencyValue(currency)}}</td><!-- currency.value -->
+						</tr>
+					</tbody>
+				</table>
+			
+			</div>
+		</div>
+	</div>
+<!-- Modal -->
+<div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Required fields</h4>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>		
+</body>
+</html>

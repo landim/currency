@@ -3,6 +3,7 @@ package com.crossover.exchange.model;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 import java.io.IOException;
@@ -124,6 +125,23 @@ public class CurrencyRestTest {
                 .contentType(contentType))
 		        .andExpect(status().is(200))
                 .andExpect(content().json(this.json(expect)));
+    }
+    
+    @Test
+    public void filterCurrenciesNotFound() throws Exception {
+    	List<Currency> expect = new ArrayList<Currency>();
+        mockMvc.perform(get("/currency?name=notfoundcurrency")
+                .contentType(contentType))
+		        .andExpect(status().is(404))
+                .andExpect(content().json(this.json(expect)));
+    }
+    
+    @Test
+    public void convertCurrencyNotFound() throws Exception {
+        mockMvc.perform(get("/currency/convert?from=YYY&to=USD&amount=5")
+                .contentType(contentType))
+		        .andExpect(status().is(404))
+		        .andExpect(header().string("reason", "Currency not found: YYY"));
     }
     
     @Test

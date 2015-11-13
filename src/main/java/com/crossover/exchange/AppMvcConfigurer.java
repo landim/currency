@@ -19,6 +19,7 @@ public class AppMvcConfigurer extends WebMvcConfigurerAdapter {
 					"classpath:/META-INF/resources/webjars/");
 		}
 		if (!registry.hasMappingForPattern("/**")) {
+			System.out.println("\n\nhas no mapping for !registry.hasMappingForPattern(\"/**\")\n\n");
 			registry.addResourceHandler("/**").addResourceLocations(
 					CLASSPATH_RESOURCE_LOCATIONS);
 		}

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.crossover.exchange.business.provider.CurrencyProvider;
+import com.crossover.exchange.exceptions.CurrencyNotFoundException;
 import com.crossover.exchange.model.Currency;
 import com.crossover.exchange.model.CurrencyRepository;
 
@@ -42,9 +43,15 @@ public class CurrencyBusinessDefault implements CurrencyBusiness {
 	}
 
 	@Override
-	public double convert(String fromCode, String toCode, double amount) {
+	public double convert(String fromCode, String toCode, double amount) throws CurrencyNotFoundException {
 		Currency fromCurrency = currencyRepository.findByCode(fromCode);
+		if (fromCurrency == null) {
+			throw new CurrencyNotFoundException(fromCode);
+		}
 		Currency toCurrency = currencyRepository.findByCode(toCode);
+		if (toCurrency == null) {
+			throw new CurrencyNotFoundException(toCode);
+		}
 
 		//calculating conversion
 		if (fromCurrency.getValue() == 0) {
